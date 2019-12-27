@@ -11,6 +11,7 @@ export interface User extends mongoose.Document {
   loginId: string;
   password: string;
   locationInfo: LocationInfo;
+  token: any;
 }
 
 const schema = new mongoose.Schema({
@@ -27,6 +28,9 @@ const schema = new mongoose.Schema({
     type: String
   },
   locationInfo: {
+    type: mongoose.SchemaTypes.Mixed
+  },
+  token: {
     type: mongoose.SchemaTypes.Mixed
   }
 }, {

@@ -27,3 +27,22 @@ export const putUserLocation = wrapper(async (req, res) => {
   }
   return res.status(200).json({success: true});
 });
+
+export const putUserToken = wrapper(async (req, res) => {
+  const input: any = {};
+  input.token = req.body.token && req.body.token.value;
+  Object.keys(input).forEach(key => !input[key] && delete input[key]);
+  const invalid = validate(input, {
+    token: {
+      presence: true,
+    }
+  });
+  if (invalid) {
+    return res.status(400).json({success: false, msg: invalid});
+  }
+  const user = await userServices.renewUserToken(req.user!._id, input.token);
+  if (!user) {
+    throw new Error('no Logined but verifyLogin middleware is passed');
+  }
+  return res.status(200).json({success: true});
+});

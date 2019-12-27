@@ -37,13 +37,19 @@ export async function getUserByObjectId(userId: ObjectId) {
   return await UserModel.findById(userId).select('-password');
 }
 
-
+// 유저 위치 갱신
 export const renewUserLocation = async (userId: ObjectId, location: [number, number]) => {
   return await UserModel.findByIdAndUpdate(userId, {
     locationInfo: {
       location,
       updatedAt: new Date()
     }
+  });
+};
+// 유저 expo push 토큰 갱신
+export const renewUserToken = async (userId: ObjectId, token: any) => {
+  return await UserModel.findByIdAndUpdate(userId, {
+    token
   });
 };
 
