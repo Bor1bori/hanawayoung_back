@@ -13,6 +13,9 @@ export const restroomNear = async (location: [number, number], distance: number)
         $centerSphere: [location, distance / 6378.1]
       }
     }
+  }).populate({
+    path: 'reviews.writer',
+    select: '-password'
   });
 };
 
