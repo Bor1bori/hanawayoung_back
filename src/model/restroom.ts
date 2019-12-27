@@ -5,6 +5,7 @@ interface Review {
   writer: ObjectId;
   rating: number;
   content: string;
+  images: [ObjectId];
 }
 
 export interface Restroom extends mongoose.Document {
@@ -26,7 +27,14 @@ const ReviewSchema = new mongoose.Schema({
   },
   content: {
     type: String
-  }
+  },
+  images: {
+    default: [],
+    type: [{
+      ref: 'Image',
+      type: ObjectId
+    }]
+  },
 });
 
 const schema = new mongoose.Schema({
@@ -47,6 +55,7 @@ const schema = new mongoose.Schema({
     type: Number,
   },
   images: {
+    default: [],
     type: [{
       ref: 'Image',
       type: ObjectId
