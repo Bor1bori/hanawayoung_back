@@ -7,14 +7,24 @@ interface ConfigStore {
   dbURL: string;
   frontURL: string;
   backURL: string;
+  awsConfig: {
+    accessKeyId: string;
+    region: string;
+    secretAccessKey: string;
+  };
 }
-type keys = 'dbURL' | 'frontURL' | 'backURL';
+type keys = 'dbURL' | 'frontURL' | 'backURL' | 'awsConfig';
 
 
 let config: ConfigStore = {
   dbURL: 'mongodb://localhost/forestroom',
   frontURL: 'http://localhost:3000',
   backURL: 'http://localhost:4000',
+  awsConfig: {
+    accessKeyId: '',
+    region: 'ap-northeast-2',
+    secretAccessKey: ''
+  }
 };
 
 const STORE_PATH = path.join(__dirname, 'store');
@@ -45,6 +55,8 @@ export function getValue(key: keys): any {
     return config.frontURL;
   case 'backURL':
     return config.backURL;
+  case 'awsConfig':
+    return config.awsConfig;
   default:
     throw new Error(`${key} is not in config`);
   }

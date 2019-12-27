@@ -14,6 +14,7 @@ export interface Restroom extends mongoose.Document {
   insertdate: number;
   updatedate: number;
   reviews: [Review];
+  images: [ObjectId];
 }
 const ReviewSchema = new mongoose.Schema({
   writer: {
@@ -44,6 +45,12 @@ const schema = new mongoose.Schema({
   },
   updatedate: {
     type: Number,
+  },
+  images: {
+    type: [{
+      ref: 'Image',
+      type: ObjectId
+    }]
   },
   reviews: {
     default: [],
