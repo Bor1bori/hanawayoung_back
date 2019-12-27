@@ -1,11 +1,13 @@
 import mongoose from 'mongoose';
 import { ObjectId } from 'bson';
+import { Image } from './image';
 
 interface Review {
+  _id?: ObjectId;
   writer: ObjectId;
   rating: number;
   content: string;
-  images: [ObjectId];
+  images: [ObjectId] | [] | [Image];
 }
 
 export interface Restroom extends mongoose.Document {
