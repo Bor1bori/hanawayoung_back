@@ -9,15 +9,21 @@ import {ObjectId} from 'bson';
 // 헬프 요청
 export const postHelp = wrapper(async (req, res) => {
   const input: any = {
-    restroomId: req.body.restroomId,
     userId: req.user!._id,
     detail: req.body.detail,
   };
+  input.x_wgs84 = parseFloat(req.query.x_wgs84);
+  input.y_wgs84 = parseFloat(req.query.y_wgs84);
+
   Object.keys(input).forEach(key => !input[key] && delete input[key]);
   const invalid = validate(input, {
-    restroomId: {
+    x_wgs84: {
       presence: true,
-      objectid: true
+      type: 'number'
+    },
+    y_wgs84: {
+      presence: true,
+      type: 'number'
     },
     detail: {
       type: 'string'
@@ -27,24 +33,14 @@ export const postHelp = wrapper(async (req, res) => {
     return res.status(400).json({success: false, msg: invalid});
   }
 
-  const restroom = await RestroomModel.findById(new ObjectId(input.restroomId));
-  if (!restroom) {
-    return res.status(409).json({success: false, msg: 'wrong restroomId'});
-  }
-  const help = await HelpModel.create({
-    restroom: input.restroomId,
-    user: input.userId,
-    detail: input.detail,
-    state: 1
-  });
-
-  const users = await userServices.userNear(restroom.location, 1);
+  const users = await userServices.userNear([input.x_wgs84, input.y_wgs84], 1);
   const pushTokens = [];
   for (let i = 0 ; i < users.length ; i++) {
     pushTokens.push(users[i].token);
   }
   const data = {
-    helpId: help._id
+    location: [input.x_wgs84, input.y_wgs84],
+    user: input.userId
   };
   await sendPushs(`근처에 위험에 처한 사람이 있습니다! 도와주세요... 제발`, data, pushTokens);
 
