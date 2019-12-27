@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import morganLogger from 'morgan';
 import express from 'express';
 import path from 'path';
 import mongoose from 'mongoose';
@@ -38,6 +39,7 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(morganLogger('dev'));
 app.use(cors());
 
 app.use(Router);
