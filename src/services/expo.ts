@@ -2,7 +2,7 @@ import Expo from 'expo-server-sdk';
 
 const expo = new Expo();
 
-export const sendPushs = async (message: string, pushTokens: any[]) => {
+export const sendPushs = async (message: string, data: any, pushTokens: any[]) => {
   const messages: any = [];
   for (const pushToken of pushTokens) {
     // Each push token looks like ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]
@@ -18,7 +18,7 @@ export const sendPushs = async (message: string, pushTokens: any[]) => {
       to: pushToken,
       sound: 'default',
       body: message,
-      data: { withSome: 'data' },
+      data,
     });
   }
   console.log('messages: ', messages);
