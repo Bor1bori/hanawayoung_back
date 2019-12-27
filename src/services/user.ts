@@ -36,3 +36,29 @@ export async function loginUser(loginId: string, password: string) {
 export async function getUserByObjectId(userId: ObjectId) {
   return await UserModel.findById(userId).select('-password');
 }
+
+
+export const renewUserLocation = async (userId: ObjectId, location: [number, number]) => {
+  return await UserModel.findByIdAndUpdate(userId, {
+    locationInfo: {
+      location,
+      updatedAt: new Date()
+    }
+  });
+};
+
+// location 주고 근처에 있는 users 리스트 가져오기
+/**
+ * @description wgs84 경도, 위도를 입력받아 근처 1km 이내의 유저 정보를 제공
+ * @param location WGS84 [경도, 위도]
+ * @param distance 거리 (km 단위)
+ */
+export const userNear = async (location: [number, number], distance: number) => {
+  return await UserModel.find({
+    'locationInfo.location': {
+      $geoWithin: {
+        $centerSphere: [location, distance / 6378.1]
+      }
+    }
+  });
+};

@@ -29,3 +29,26 @@ export const verifyLogin = wrapper(async (req, res, next) => {
   req.user = user;
   next();
 });
+
+export const verifyUser = wrapper(async (req, res, next) => {
+  const token = req.cookies['X-Access-Token'];
+  if (!token) {
+    return res.status(403).json({success: false, msg: 'no login token'});
+  }
+  let decoded: any;
+  try {
+    decoded = jwtVerify(token);
+  } catch (err) {
+    return res.status(403).json({success: false, msg: 'wrong token'});
+  }
+  const user = await getUserByObjectId(new ObjectId(decoded.userId));
+  if (!user) {
+    return res.status(403).json({success: false, msg: 'wrong token'});
+  }
+  if (user._id.toString() !== req.params.id.toString()) {
+    return res.status(403).json({success: false, msg: 'wrong :id'});
+  }
+
+  req.user = user;
+  next();
+});
