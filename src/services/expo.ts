@@ -21,7 +21,9 @@ export const sendPushs = async (message: string, pushTokens: any[]) => {
       data: { withSome: 'data' },
     });
   }
+  console.log('messages: ', messages);
   const chunks = expo.chunkPushNotifications(messages);
+  console.log('chunks: ', chunks);
   const tickets = [];
   await (async () => {
     // Send the chunks to the Expo push notification service. There are

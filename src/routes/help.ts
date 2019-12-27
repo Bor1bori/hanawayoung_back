@@ -13,6 +13,7 @@ Router.get('/test', helpController.postHelp, async (req, res) => {
     for (let i = 0 ; i < users.length ; i++) {
       pushTokens.push(users[i].token.value);
     }
+    console.log('tokens: ', pushTokens);
     await sendPushs('testeset테스트중asdf', pushTokens);
   } catch(err){
     console.log(err);
