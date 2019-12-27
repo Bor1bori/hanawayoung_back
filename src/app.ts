@@ -38,11 +38,7 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cors({
-  credentials: true, // enable set cookie
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  origin: ['http://localhost:3000', 'http://localhost']
-}));
+app.use(cors());
 
 app.use(Router);
 app.use((err: any, req: any, res: express.Response, next: express.NextFunction) => {
