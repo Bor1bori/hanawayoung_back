@@ -23,7 +23,6 @@ export const getNearRestrooms = wrapper(async (req, res) => {
     return res.status(400).json({success: false, msg: invalid});
   }
   const restrooms = await restroomNear([input.x_wgs84, input.y_wgs84], 1);
-  console.log(restrooms);
   return res.status(200).json({success: true, restrooms});
 });
 

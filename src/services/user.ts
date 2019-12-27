@@ -29,10 +29,7 @@ export async function createUser(nickname: string, loginId: string, password: st
 }
 
 export async function loginUser(loginId: string, password: string) {
-  const user = await UserModel.findOne({loginId}).select('-password');
-  if (!user || user.password !== password) {
-    return null;
-  }
+  const user = await UserModel.findOne({loginId, password}).select('-password');
   return user;
 }
 
