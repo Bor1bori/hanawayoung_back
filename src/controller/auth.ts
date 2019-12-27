@@ -29,7 +29,13 @@ export const registerUser = wrapper(async (req, res) => {
   if (!user) {
     return res.status(409).json({success: false, msg: '닉네임 혹은 ID 중복'});
   }
-  res.status(200).json({success: true, _id: user._id});
+  const token = jwtSign({userId: user._id});
+  res.cookie('X-Access-Token', token);
+  return res.status(200).json({
+    success: true,
+    'X-Access-Token': token,
+    user
+  });
 });
 
 export const loginUser = wrapper(async (req, res) => {
