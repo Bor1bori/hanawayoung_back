@@ -13,7 +13,7 @@ export interface Restroom extends mongoose.Document {
   location: [number, number]; // 경도 위도 (x, y)
   insertdate: number;
   updatedate: number;
-  reviews: Review;
+  reviews: [Review];
 }
 const ReviewSchema = new mongoose.Schema({
   writer: {
@@ -34,7 +34,6 @@ const schema = new mongoose.Schema({
   },
   description: {
     type: String,
-    
   },
   location: {
     type: Array

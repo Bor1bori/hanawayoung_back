@@ -35,3 +35,7 @@ export async function loginUser(loginId: string, password: string) {
   }
   return user;
 }
+
+export async function getUserByObjectId(userId: ObjectId) {
+  return await UserModel.findById(userId).select('-password');
+}

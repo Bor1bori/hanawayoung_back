@@ -1,8 +1,7 @@
 import {wrapper} from '../utils/wrapper';
 import {jwtVerify, aesDecrypt} from '../utils/auth';
-import {getOrderById} from '../services/order';
-import {getUserByObjectId, getUserByPhoneNumber} from '../services/user';
 import validate = require('validate.js');
+import {getUserByObjectId} from '../services/user';
 import {ObjectId} from 'bson';
 
 /**
@@ -14,22 +13,19 @@ import {ObjectId} from 'bson';
 export const verifyLogin = wrapper(async (req, res, next) => {
   const token = req.cookies['X-Access-Token'];
   if (!token) {
-    return res.status(403).send(null);
+    return res.status(403).json({success: false, msg: 'no login token'});
   }
   let decoded: any;
   try {
     decoded = jwtVerify(token);
   } catch (err) {
-    return res.status(403).send(null);
+    return res.status(403).json({success: false, msg: 'wrong token'});
   }
-  const user = await getUserByObjectId(decoded.userId);
+  const user = await getUserByObjectId(new ObjectId(decoded.userId));
   if (!user) {
-    return res.status(403).send(null);
+    return res.status(403).json({success: false, msg: 'wrong token'});
   }
-  /*
-  if (user.role === 'chef' && user.chefInfo!.state !== 1) {
-    return res.status(403).send('Not allowed chef account');
-  }*/
+
   req.user = user;
   next();
 });

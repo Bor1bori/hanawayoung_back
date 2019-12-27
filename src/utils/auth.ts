@@ -19,7 +19,7 @@ export const hash = (plainText: string): string  => {
 };
 
 export const aesEncrypt = (plainText: string) => {
-  const cipher = crypto.createCipheriv('aes-256-cbc', aesKey, 'mypchefmypchefqq');
+  const cipher = crypto.createCipheriv('aes-256-cbc', aesKey, 'asdfqwerasdfqwer');
   let result = cipher.update(plainText, 'utf8', 'base64');
   result += cipher.final('base64');
   return result;
@@ -27,7 +27,7 @@ export const aesEncrypt = (plainText: string) => {
 
 export const aesDecrypt = (encryptedText: string) => {
   try {
-    const decipher = crypto.createDecipheriv('aes-256-cbc', aesKey, 'mypchefmypchefqq');
+    const decipher = crypto.createDecipheriv('aes-256-cbc', aesKey, 'asdfqwerasdfqwer');
     let result = decipher.update(encryptedText, 'base64', 'utf8'); 
     result += decipher.final('utf8'); 
     return result;
