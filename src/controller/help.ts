@@ -40,7 +40,8 @@ export const postHelp = wrapper(async (req, res) => {
   }
   const data = {
     location: [input.x_wgs84, input.y_wgs84],
-    user: input.userId
+    user: input.userId,
+    detail: input.detail
   };
   await sendPushs(`근처에 위험에 처한 사람이 있습니다! 도와주세요... 제발`, data, pushTokens);
 
