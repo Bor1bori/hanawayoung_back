@@ -12,8 +12,8 @@ export const postHelp = wrapper(async (req, res) => {
     userId: req.user!._id,
     detail: req.body.detail,
   };
-  input.x_wgs84 = parseFloat(req.query.x_wgs84);
-  input.y_wgs84 = parseFloat(req.query.y_wgs84);
+  input.x_wgs84 = parseFloat(req.body.x_wgs84);
+  input.y_wgs84 = parseFloat(req.body.y_wgs84);
 
   Object.keys(input).forEach(key => !input[key] && delete input[key]);
   const invalid = validate(input, {
